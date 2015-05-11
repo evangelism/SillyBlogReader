@@ -40,8 +40,15 @@ namespace SillyBlogReader.Model
         public async Task Load()
         {
             var cli = new HttpClient();
-            var s = await cli.GetInputStreamAsync(new Uri(Url));
-            var xdoc = XDocument.Load(s.AsStreamForRead()); // XDocument.Parse(s);
+            
+            // Use the following 2 lines to read blog content live from the Internet
+            //var s = await cli.GetInputStreamAsync(new Uri(Url));
+            //var xdoc = XDocument.Load(s.AsStreamForRead()); // XDocument.Parse(s);
+
+            // Use the following 2 lines in order to speed-up startup and read data from local folder
+            var z = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Data");
+            var xdoc = XDocument.Load(Url);
+
             Title = (from x in xdoc.Descendants("title")
                      select x.Value).First();
             var res = from x in xdoc.Descendants("item")

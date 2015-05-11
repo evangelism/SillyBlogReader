@@ -13,9 +13,16 @@ namespace SillyBlogReader.Model
         public Blogs()
         {
             AllBlogs = new Blog[3];
-            AllBlogs[0] = new Blog("Student", "http://blogs.msdn.com/b/rustudents/rss.aspx", Symbol.People);
-            AllBlogs[1] = new Blog("Coding4Fun", "http://blogs.msdn.com/b/rucoding4fun/rss.aspx", Symbol.Emoji2);
-            AllBlogs[2] = new Blog("Author", "http://blogs.msdn.com/b/sos/rss.aspx",Symbol.Contact);
+            // AllBlogs[0] = new Blog("Student", "http://blogs.msdn.com/b/rustudents/rss.aspx", Symbol.People);
+            // AllBlogs[1] = new Blog("Coding4Fun", "http://blogs.msdn.com/b/rucoding4fun/rss.aspx", Symbol.Emoji2);
+            // AllBlogs[2] = new Blog("Author", "http://blogs.msdn.com/b/sos/rss.aspx",Symbol.Contact);
+
+            var p = Windows.ApplicationModel.Package.Current.InstalledLocation.Path + "\\";
+
+            AllBlogs[0] = new Blog("Student", p+"Data/rustudents.rss", Symbol.People);
+            AllBlogs[1] = new Blog("Coding4Fun", p+"Data/coding4fun.rss", Symbol.Emoji2);
+            AllBlogs[2] = new Blog("Author", p+"Data/dsh.rss", Symbol.Contact);
+
         }
 
         public async Task Load()

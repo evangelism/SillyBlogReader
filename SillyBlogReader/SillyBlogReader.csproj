@@ -108,6 +108,15 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ApplicationInsights.config" />
+    <Content Include="Data\coding4fun.rss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\dsh.rss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\rustudents.rss">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="SillyBlogReader_TemporaryKey.pfx" />
   </ItemGroup>

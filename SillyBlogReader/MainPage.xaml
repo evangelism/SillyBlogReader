@@ -1,25 +1,34 @@
 ﻿<Page
-    x:Class="SillyBlogReader.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SillyBlogReader"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ViewModels="using:SillyBlogReader.ViewModels"
+    x:Class="SillyBlogReader.MainPage"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <DataTemplate x:Key="BlogTemplate">
+            <StackPanel Orientation="Horizontal">
+                <SymbolIcon Symbol="{Binding Symbol}" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding ShortTitle}"/>
+            </StackPanel>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="VerticalTemplate">
+            <StackPanel Orientation="Vertical"/>
+        </ItemsPanelTemplate>
+        <ItemsPanelTemplate x:Key="HorizontalTemplate">
+            <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>        
+    </Page.Resources>
+    <Page.DataContext>
+        <ViewModels:MainPageViewModel/>
+    </Page.DataContext>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <RelativePanel>
-            <ListView x:Name="Blogs" ItemsSource="{Binding AllBlogs}" SelectedItem="{Binding CurrentBlog,Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <SymbolIcon Symbol="{Binding Symbol}"/>
-                            <TextBlock Text="{Binding ShortTitle}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+            <ListView x:Name="Blogs" ItemsSource="{Binding AllBlogs}" ItemTemplate="{StaticResource BlogTemplate}" SelectedItem="{Binding CurrentBlog, Mode=TwoWay}">
             </ListView>
-            <ListBox x:Name="Items" RelativePanel.RightOf="Blogs" ItemsSource="{Binding CurrentBlog.Entries}" SelectedItem="{Binding CurrentEntry,Mode=TwoWay}">
+            <ListBox x:Name="Items" RelativePanel.Below="Blogs" ItemsSource="{Binding CurrentBlog.Entries}" SelectedItem="{Binding CurrentEntry, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -29,10 +38,30 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel x:Name="Entry" RelativePanel.Below="Items">
-                <TextBlock Text="{Binding CurrentEntry.Title}" FontWeight="ExtraBlack"></TextBlock>
-                <TextBlock Text="{Binding CureentEntry.Body}" FontSize="9"></TextBlock>
-            </StackPanel>
         </RelativePanel>
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="WindowStates">
+            <VisualState x:Name="WideState">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="800"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="Items.(RelativePanel.Below)" Value="" />
+                    <Setter Target="Items.(RelativePanel.RightOf)" Value="Blogs" />
+                    <Setter Target="Blogs.ItemsPanel" Value="{StaticResource     VerticalTemplate}"/>
+                </VisualState.Setters>
+            </VisualState>
+            <VisualState x:Name="NarrowState">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="1"/>
+                </VisualState.StateTriggers>
+                <VisualState.Setters>
+                    <Setter Target="Items.(RelativePanel.Below)" Value="Blogs" />
+                    <Setter Target="Items.(RelativePanel.RightOf)" Value=""/>
+                    <Setter Target="Blogs.ItemsPanel" Value="{StaticResource HorizontalTemplate}"/>
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

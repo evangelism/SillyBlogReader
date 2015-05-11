@@ -28,12 +28,12 @@ namespace SillyBlogReader
         public MainPage()
         {
             this.InitializeComponent();
-            DataContext = VM = new MainPageViewModel();
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            VM = (MainPageViewModel)DataContext;
             await VM.Load();
         }
 
