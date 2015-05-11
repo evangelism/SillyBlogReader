@@ -12,7 +12,7 @@ namespace SillyBlogReader.Model
         public string Title { get; set; }
         public string Body { get; set; }
 
-        public string ShortBody => Body.Substring(0,140);
+        public string ShortBody => CleverSubstring(Body.Replace('\n',' ').Replace('\r',' '),500);
         public BitmapImage Image { get; private set; }
         public string ImageUrl
         {
@@ -20,5 +20,13 @@ namespace SillyBlogReader.Model
         }
 
         public DateTime When { get; set; }
+
+        protected string CleverSubstring(string s, int n)
+        {
+            if (s.Length <= n) return s;
+            while (s[n] != ' ' && n > 300) n--;
+            return s.Substring(0, n) + "...";
+        }
+
     }
 }

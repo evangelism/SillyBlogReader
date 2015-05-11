@@ -31,10 +31,15 @@
             <ListBox x:Name="Items" RelativePanel.Below="Blogs" ItemsSource="{Binding CurrentBlog.Entries}" SelectedItem="{Binding CurrentEntry, Mode=TwoWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
+                        <RelativePanel>
+                            <Image x:Name="Img" Height="100" Width="100" Source="{Binding Image}" Stretch="UniformToFill" Margin="10,10,10,10" RelativePanel.AlignTopWithPanel="True"/>
+                            <TextBlock RelativePanel.RightOf="Img" RelativePanel.AlignTopWithPanel="True" x:Name="Txt" Text="{Binding Title}" FontWeight="Bold"/>
+                            <TextBlock RelativePanel.RightOf="Img" RelativePanel.Below="Txt" Text="{Binding ShortBody}" TextWrapping="WrapWholeWords"/>
+                        </RelativePanel>
+                        <!-- StackPanel>
                             <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
                             <TextBlock Text="{Binding ShortBody}"/>
-                        </StackPanel>
+                        </ -->
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
